@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+//abcdefghijklmnopqrstuvwxyz
+//whatsanotherwordforsynonym
+//the difference between fiction and reality? fiction has to make sense.
+std::string encipherMessage(const std::string& plaintext, const std::string& keyPhrase) {
+    std::string cipherAlphabet = keyPhrase;
+//g vbgimvmmam tmmmmv ygt emgoe erv yrvm migo rom gtgbommam tmmmmv
+    
+    for (char c = 'a'; c <= 'z'; ++c) {
+        if (cipherAlphabet.find(c) == std::string::npos) {
+            cipherAlphabet += c;
+        }
+    }
+
+    std::string encipheredMessage;
+
+    for (char c : plaintext) {
+        if (std::islower(c)) {
+            size_t index = c - 'a';
+
+            if (index < cipherAlphabet.size()) {
+                char encipheredChar = cipherAlphabet[index];
+                encipheredMessage += encipheredChar;
+            }
+        } else {
+            encipheredMessage += c;
+        }
+    }
+
+    return encipheredMessage;
+}
+
+std::string decipherMessage(const std::string& encipheredMessage, const std::string& keyPhrase) {
+    std::string cipherAlphabet = keyPhrase;
+
+   
+    for (char c = 'a'; c <= 'z'; ++c) {
+        if (cipherAlphabet.find(c) == std::string::npos) {
+            cipherAlphabet += c;
+        }
+    }
+
+    std::string decipheredMessage;
+
+    for (char c : encipheredMessage) {
+        if (std::islower(c)) {
+            size_t index = cipherAlphabet.find(c);
+
+            if (index != std::string::npos) {
+                char decipheredChar = 'a' + static_cast<char>(index);
+                decipheredMessage += decipheredChar;
+            }
+        } else {
+            decipheredMessage += c;
+        }
+    }
+
+    return decipheredMessage;
+}
+
+int main() {
+    std::string plaintext = "the difference between fiction and reality? fiction has to make sense.";
+    std::string keyPhrase = "whatsanotherwordforsynonym";
+
+    std::string encipheredMessage = encipherMessage(plaintext, keyPhrase);
+    std::cout << "Enciphered message: " << encipheredMessage << std::endl;
+
+    std::string decipheredMessage = decipherMessage(encipheredMessage, keyPhrase);
+    std::cout << "Deciphered message: " << decipheredMessage << std::endl;
+
+    return 0;
+}
